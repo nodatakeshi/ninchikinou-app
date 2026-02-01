@@ -78,9 +78,21 @@ if 'user_name' not in st.session_state:
     st.session_state.user_name = ""
 
 if not st.session_state.user_name:
-    name = st.text_input("あなたの名前を入力してください")
+    name = st.text_input("あなたの名前（ニックネーム）を入力してください")
     if name:
         st.session_state.user_name = name
+        # ログインした瞬間に、DBからその人の過去データをロードする
+        try:
+            df = load_data()
+            user_data = df[df["name"] == name]
+            if not user_data.empty:
+                # すでにデータがあれば、q1〜q15をリストとして取り出す
+                row = user_data.iloc[0]
+                st.session_state.scores = [int(row[f"q{i+1}"]) for i in range(15)]
+            else:
+                st.session_state.scores = [0] * 15
+        except:
+            st.session_state.scores = [0] * 15
         st.rerun()
     st.stop()
 
@@ -146,3 +158,4 @@ def show_ranking():
 
 
 show_ranking()
+
