@@ -20,7 +20,8 @@ def get_gspread_client():
             creds_dict = json.load(f)
     # 2. 公開環境（Streamlit CloudのSecretsを使う場合）
     else:
-        creds_dict = st.secrets["connections"]["gsheets"]
+        creds_dict = dict(st.secrets["connections"]["gsheets"])
+        
         # Streamlit Cloud上でも改行コードの置換が必要な場合があります
         if "private_key" in creds_dict:
             creds_dict["private_key"] = creds_dict["private_key"].replace("\\n", "\n")
@@ -142,5 +143,6 @@ def show_ranking():
     except Exception as e:
         # デバッグ用にエラーを表示させる場合は st.error(e) にしてください
         pass
+
 
 show_ranking()
