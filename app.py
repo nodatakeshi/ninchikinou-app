@@ -122,25 +122,8 @@ with st.expander("📝 スコアを入力してね", expanded=True):
                         on_change=update_data, 
                         args=(idx,)
                     )
-    st.subheader(f"合計点: {sum(st.session_state.scores)}")with st.expander("📝 スコアを入力してね", expanded=True):
-    # 15問を3問ずつのセットにしてループを回す
-    for i in range(0, 15, 3):
-        cols = st.columns(3)
-        # 1行（3列）の中に、順番に問を入れていく
-        for j in range(3):
-            idx = i + j
-            if idx < 15:
-                with cols[j]:
-                    st.number_input(
-                        f"問{idx+1}", 
-                        key=f"q_{idx}", 
-                        value=st.session_state.scores[idx], 
-                        step=1, 
-                        on_change=update_data, 
-                        args=(idx,)
-                    )
     st.subheader(f"合計点: {sum(st.session_state.scores)}")
-    
+
 st.divider()
 st.subheader("🏆 ランキング")
 
